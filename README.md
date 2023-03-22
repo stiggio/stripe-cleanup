@@ -2,7 +2,7 @@
 
 This repo helps to find and delete non-paying custoemrs from Stripe:
 
-### setup:
+### Setup:
 
 1. yarn `npm install`
 2. Add `.env` file at the root
