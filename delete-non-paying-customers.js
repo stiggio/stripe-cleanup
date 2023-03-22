@@ -8,7 +8,8 @@ const stripe = require("stripe")(process.env.STRIPE_API_KEY);
 
 function customerHasPayment(customer) {
   return (
-    customer.default_source || customer.invoice_settings?.default_payment_method
+    !!customer.default_source ||
+    !!customer.invoice_settings?.default_payment_method
   );
 }
 
