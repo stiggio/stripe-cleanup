@@ -28,11 +28,10 @@ async function start() {
   const freeCustomers = [];
   let hasMore = true;
   let page: undefined | null | string;
+  let pageNumber = 1;
   while (hasMore) {
+    console.log(`Fetching page ${pageNumber++}`);
     const customersSearchResult = await stripe.customers.search({
-      // query customers created between Webflow rollout to Stigg fix:
-      // 1699833600 = November 13, 2023 12:00:00 AM
-      // 1701195300 = November 28, 2023 6:15:00 PM
       query: "created > 1699833600 AND created < 1701195300",
       limit: 30,
       page: page || undefined,
@@ -47,6 +46,7 @@ async function start() {
         customerIsFree(customer)
       )
     );
+    console.log(`Found ${freeCustomers.length} free customers`);
   }
 
   const customersData = freeCustomers.map((customer) => ({
