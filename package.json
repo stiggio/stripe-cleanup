@@ -6,6 +6,7 @@
   "scripts": {
     "delete": "node ./delete-non-paying-customers.js",
     "find": "node ./find-non-paying-customers.js",
+    "webflow": "ts-node ./find-webflow-free-customers",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

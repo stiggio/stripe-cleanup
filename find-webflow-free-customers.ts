@@ -11,7 +11,7 @@ if (!process.env.STRIPE_API_KEY) {
 function customerIsFree(customer: Stripe.Customer) {
   const hasNoPaymentMethod =
     !customer.default_source &&
-    customer.invoice_settings?.default_payment_method;
+    !customer.invoice_settings?.default_payment_method;
   const hasOnlyStiggMetadata =
     keys(customer.metadata).length === 2 &&
     !!customer.metadata.stiggCustomerId &&
@@ -27,24 +27,24 @@ async function start() {
   });
   const freeCustomers = [];
   let hasMore = true;
-  let page;
+  let page: undefined | null | string;
   while (hasMore) {
     const customersSearchResult = await stripe.customers.search({
       // query customers created between Webflow rollout to Stigg fix:
       // 1699833600 = November 13, 2023 12:00:00 AM
       // 1701195300 = November 28, 2023 6:15:00 PM
-      query: "created > 1699833600 AND customer.created < 1701195300",
+      query: "created > 1699833600 AND created < 1701195300",
       limit: 30,
-      page,
-      expand: ["subscriptions"],
+      page: page || undefined,
+      expand: ["data.subscriptions"],
     });
 
     hasMore = customersSearchResult.has_more;
     page = customersSearchResult.next_page;
 
     freeCustomers.push(
-      ...customersSearchResult.data.filter(
-        (customer) => !customerIsFree(customer)
+      ...customersSearchResult.data.filter((customer) =>
+        customerIsFree(customer)
       )
     );
   }
