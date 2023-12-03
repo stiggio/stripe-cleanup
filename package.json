@@ -12,7 +12,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/lodash": "^4.14.202",
     "dotenv": "^16.0.3",
+    "lodash": "^4.17.21",
     "stripe": "^11.15.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.2"
   }
 }
