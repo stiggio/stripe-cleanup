@@ -32,6 +32,8 @@ async function start() {
   while (hasMore) {
     console.log(`Fetching page ${pageNumber++}`);
     const customersSearchResult = await stripe.customers.search({
+      // 1699833600 = November 13, 2023 12:00:00 AM
+      // 1701195300 = November 28, 2023 6:15:00 PM
       query: "created > 1699833600 AND created < 1701195300",
       limit: 30,
       page: page || undefined,
